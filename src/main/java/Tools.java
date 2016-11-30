@@ -8,8 +8,6 @@ public class Tools {
     public static <T> List<Node<T>> convertToNodes(T[][] matrix, int x, int y) {
         List<Node<T>> lstNodes = new ArrayList<Node<T>>();
 
-
-
         return lstNodes;
     }
 
