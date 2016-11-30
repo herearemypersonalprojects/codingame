@@ -11,8 +11,11 @@ public class Node<T> {
 
     boolean visited = false;
 
-    public Node() {
+    Node previous;
+
+    public Node(T value) {
         children = new ArrayList<Node>();
+        this.value = value;
     }
 
     public List<Node> getChildren() {
@@ -37,5 +40,13 @@ public class Node<T> {
 
     public void setVisited(boolean visited) {
         this.visited = visited;
+    }
+
+    public Node getPrevious() {
+        return previous;
+    }
+
+    public void setPrevious(Node previous) {
+        this.previous = previous;
     }
 }
