@@ -5,7 +5,7 @@ import java.util.*;
  * Auto-generated code below aims at helping you parse
  * the standard input according to the problem statement.
  **/
-class Player {
+class TheLabyrinth {
 
     private static class TraceablePoint extends Point {
         TraceablePoint previous;
