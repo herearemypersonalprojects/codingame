@@ -11,7 +11,7 @@ public class Matrix {
         int y = point.getY() + dir.getMy();
 
         if (0 <= x && x < h && 0 <= y && y < w && ( point.getValue() == null || v.equals(point.getValue()))) {
-            Point neighbour = new Point(x, y, null);
+            return new Point(x, y, null);
         }
 
         return null;
@@ -21,7 +21,8 @@ public class Matrix {
         List<Point> lstPoints = new ArrayList<>();
         for (Direction4Dir dir : Direction4Dir.values()) {
             Point neighbour = getNeighbour(point, h, w, v, dir);
-            lstPoints.add(neighbour);
+            if (neighbour != null)
+                lstPoints.add(neighbour);
         }
         return lstPoints;
     }
@@ -29,12 +30,19 @@ public class Matrix {
     public static Direction4Dir getDirection(Point start, Point end) {
         Direction4Dir dir = null;
         for (Direction4Dir tmp : Direction4Dir.values()) {
-
+            int x = end.getX() - start.getX();
+            int y = end.getY() - start.getY();
+            if (x == tmp.getMx() && y == tmp.getMy()) {
+                dir = tmp;
+                break;
+            }
         }
         return dir;
     }
 
     public static Point getNextMove(Point start, Direction4Dir direction) {
-
+        int x = start.getX() + direction.getMx();
+        int y = start.getY() + direction.getMy();
+        return new Point(x, y, null);
     }
 }

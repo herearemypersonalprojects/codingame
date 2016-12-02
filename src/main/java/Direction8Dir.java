@@ -18,4 +18,12 @@ public enum Direction8Dir {
         this.mx = mx;
         this.my = my;
     }
+
+    public int getMx() {
+        return mx;
+    }
+
+    public int getMy() {
+        return my;
+    }
 }
