@@ -6,6 +6,11 @@ import java.util.*;
 public class Graph {
     Map<String, List<String>> edges = new HashMap<String, List<String>>();
 
+    public void add2ways(String start, String end) {
+        this.addEdge(start, end);
+        this.addEdge(end, start);
+    }
+
     public void addEdge(String src, String dest) {
         List<String> lstNeighbours = this.edges.get(src);
         if (lstNeighbours == null) {
@@ -15,12 +20,50 @@ public class Graph {
         lstNeighbours.add(dest);
     }
 
+    public void remove2way(String src, String dest) {
+        removeEdge(src, dest);
+        removeEdge(dest, src);
+    }
+
+    public void removeEdge(String src, String dest) {
+        List<String> lstNeighbours = this.edges.get(src);
+        if (lstNeighbours != null) {
+            lstNeighbours.remove(dest);
+        }
+    }
+
     public List<String> getNeighbours(String vertex) {
         List<String> lstNeighbours = edges.get(vertex);
         if (lstNeighbours == null)
             return Collections.emptyList();
         else
             return Collections.unmodifiableList(lstNeighbours);
+    }
+
+    public Map<String, String> searchBsf(String start, Set<String> gateways) {
+        Set<String> visited = new HashSet<String>();
+        Map<String, String> previous = new HashMap<String, String>();
+        Queue<String> queue = new LinkedList<String>();
+        queue.add(start);
+        visited.add(start);
+        previous.put(start, null);
+        while (!queue.isEmpty()) {
+            String vertex = queue.remove();
+            for (String neighbour : this.getNeighbours(vertex)) {
+                if (!visited.contains(neighbour)) {
+                    visited.add(neighbour);
+                    previous.put(neighbour, vertex);
+                    if (gateways.contains(neighbour)) {
+                        queue.clear();
+                        break;
+                    } else {
+                        queue.add(neighbour);
+                    }
+                }
+            }
+        }
+
+        return previous;
     }
 
     public Map<String, String> searchBsf(Graph graph, String start, String end) {
@@ -32,17 +75,18 @@ public class Graph {
         previous.put(start, null);
         while (!queue.isEmpty()) {
             String vertex = queue.remove();
-            graph.getNeighbours(vertex).stream()
-                .filter(v -> !visited.contains(v))
-                .forEach(v -> {
-                    visited.add(v);
-                    previous.put(v, vertex);
-                    if (v.equals(end)) {
+            for (String neighbour : this.getNeighbours(vertex)) {
+                if (!visited.contains(neighbour)) {
+                    visited.add(neighbour);
+                    previous.put(neighbour, vertex);
+                    if (end.equals(neighbour)) {
                         queue.clear();
+                        break;
                     } else {
-                        queue.add(v);
+                        queue.add(neighbour);
                     }
-                });
+                }
+            }
         }
         return previous;
     }
@@ -56,16 +100,18 @@ public class Graph {
         previous.put(start, null);
         while (!stack.isEmpty()) {
             String vertex = stack.pop();
-            graph.getNeighbours(vertex).stream()
-                    .filter(v -> !visited.contains(v))
-                    .forEach(v -> {
-                        visited.add(v);
-                        previous.put(v, vertex);
-                        if (v.equals(end)) {
-                            stack.clear();
-                        } else
-                            stack.push(v);
-                    });
+            for (String neighbour : this.getNeighbours(vertex)) {
+                if (!visited.contains(neighbour)) {
+                    visited.add(neighbour);
+                    previous.put(neighbour, vertex);
+                    if (end.equals(neighbour)) {
+                        stack.clear();
+                        break;
+                    } else {
+                        stack.add(neighbour);
+                    }
+                }
+            }
         }
         return previous;
     }
