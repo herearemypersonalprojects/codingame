@@ -1,5 +1,7 @@
+import java.io.File;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Stack;
 
 /**
  * Created by quocanh on 04/12/2016.
@@ -7,15 +9,32 @@ import java.util.Collections;
 public class Training {
     static boolean exists(int[] ints, int k) {
         Arrays.sort(ints);
-        if (Arrays.binarySearch(ints, k) == -1) {
-            return false;
-        } else {
-            return true;
-        }
+       return (Arrays.binarySearch(ints, k) > -1);
     }
 
     public static void main(String[] args) {
 
+    }
+
+    static String locateUniverseFormula() {
+        String filename = "universe-formula";
+        String dir = "/tmp/documents";
+        Stack<String> stack = new Stack<>();
+        stack.push(dir);
+        while (!stack.isEmpty()) {
+            File file = new File(stack.pop());
+            File[] listOfFiles = file.listFiles();
+            for (int i = 0; i < listOfFiles.length; i++) {
+                if (listOfFiles[i].isFile() && listOfFiles[i].getName().equals(filename)) {
+                    return listOfFiles[i].getAbsolutePath();
+                } else
+                if (listOfFiles[i].isDirectory()) {
+                    stack.push(listOfFiles[i].getAbsolutePath());
+                }
+
+            }
+        }
+        return null;
     }
 }
 /*
