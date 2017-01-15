@@ -12,7 +12,7 @@ class TheLabyrinth {
         String dir;
 
         public TraceablePoint(int r, int c) {
-            super(r, c);
+            super(r, c, 0);
         }
 
         public TraceablePoint getPrevious() {
